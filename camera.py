@@ -5,6 +5,9 @@ import random
 import sys
 
 
+
+
+
 class Game:
 
     def __init__(self):
@@ -61,9 +64,10 @@ class Game:
         # Create world
         self.generate_world()
 
+
+
     def generate_world(self):
 
-        """Generate the world with regional bias applied."""
         self.world_map = [[(0, 0, 0) for _ in range(self.GRID_WIDTH)] for _ in range(self.GRID_HEIGHT)]
 
         for y in range(self.GRID_HEIGHT):
@@ -92,38 +96,51 @@ class Game:
 
                 # Assign colors based on combined noise with adjusted thresholds
                 if combined_noise < -0.3:
+
                     color = self.cell_types[0]  # Water
 
                 elif -0.3 <= combined_noise < -0.15:
+
                     color = self.cell_types[1]  # Sand
 
                 elif -0.15 <= combined_noise < 0.2:
+
                     color = self.cell_types[2]  # Grass
 
                 elif 0.2 <= combined_noise < 0.4:
+
                     color = self.cell_types[3]  # Forest
 
                 else:
+
                     color = self.cell_types[4]  # Mountain
 
                 self.world_map[y][x] = color
+
+
 
     def handle_event(self):
 
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
+
                 pygame.quit()
                 sys.exit()
 
             if event.type == KEYDOWN:
 
                 if event.key == K_F11:
+
                     self.is_fullscreen = not self.is_fullscreen
+
                     if self.is_fullscreen:
+
                         self.SCREEN = pygame.display.set_mode((0, 0), FULLSCREEN)
                         self.screen_width, self.screen_height = pygame.display.get_surface().get_size()
+
                     else:
+
                         self.SCREEN = pygame.display.set_mode((self.DEFAULT_SCREEN_WIDTH, self.DEFAULT_SCREEN_HEIGHT))
                         self.screen_width, self.screen_height = self.DEFAULT_SCREEN_WIDTH, self.DEFAULT_SCREEN_HEIGHT
 
@@ -154,6 +171,8 @@ class Game:
         self.offset_x += (keys[K_a] - keys[K_d]) * movement_speed
         self.offset_y += (keys[K_w] - keys[K_s]) * movement_speed
 
+
+
     def render_world(self):
 
         start_col = max(0, int(-self.offset_x // self.CELL_SIZE) - 1)
@@ -177,11 +196,15 @@ class Game:
 
                 pygame.draw.rect(self.SCREEN, color, rect)
 
+
+
     def render_gui(self):
 
         fps = int(self.clock.get_fps())
         fps_text = self.FONT.render(f"{fps}", True, (0, 0, 0))
         self.SCREEN.blit(fps_text, (10, 10))
+
+
 
     def main_loop(self):
 
@@ -197,6 +220,10 @@ class Game:
             pygame.display.update()
 
 
+
+
+
 if __name__ == "__main__":
+
     game = Game()
     game.main_loop()
